@@ -1,29 +1,33 @@
 require_relative '../spec_helper'
 
-describe 'User' do
+describe User do
 
-  let(:john){ Fabricate :john }
-  let( :bob){ Fabricate  :bob }
+  before :all do
+    @john = Fabricate :john
+    @bob  = Fabricate :bob
 
-  let(:status){ Fabricate :status }
+    @status = Fabricate :status
+  end
+
+  after :all do
+    @john.destroy
+  end
 
   describe 'should be able to' do
 
     it 'create a status' do
-      john.add_status status
+      @john.add_status @status
 
-      expect(john.statuses).to eql [status]
+      expect(@john.statuses).to eql [@status]
     end
 
     it 'follow other users' do
-      john.add_followee bob
+      @john.add_followee @bob
 
-      expect(john.followees).to eql [bob]
-      expect(john.followers).to be_empty
+      expect(@john.followees).to eql [@bob]
     end
 
     it 'know the users who follow him/her' do
-      puts john.methods
       pending 'john.followees'
     end
 
