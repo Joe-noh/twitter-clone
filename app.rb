@@ -1,4 +1,9 @@
 
+before do
+  pass if ['/user/new', '/login', '/unauthenticated'].include? request.path_info
+  request.path_info = '/' unless logged_in?
+end
+
 get '/' do
   if logged_in?
     slim :home
