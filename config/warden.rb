@@ -25,11 +25,11 @@ end
 
 helpers do
   def warden
-    env['warden']
+    request.env['warden']
   end
 
   def logged_in?
-    !warden.user.nil?
+    !(warden.user.nil?)
   end
 
   def login_user
