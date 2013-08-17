@@ -1,5 +1,7 @@
 ENV['RACK_ENV'] ||= 'development'
 
+enable :session
+
 require 'bundler/setup'
 Bundler.require :default, ENV['RACK_ENV'].to_sym
 

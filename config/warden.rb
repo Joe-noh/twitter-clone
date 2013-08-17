@@ -27,4 +27,12 @@ helpers do
   def warden
     env['warden']
   end
+
+  def logged_in?
+    !warden.user.nil?
+  end
+
+  def login_user
+    warden.user
+  end
 end
