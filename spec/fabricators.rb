@@ -1,18 +1,18 @@
 
 # Users
-Fabricator(:john, :from => :user) do
-  name 'john'
-  self_introduction 'Hello, I am John.'
+Fabricator(:franz, :from => :user) do
+  name 'FranzFerdinand'
+  self_introduction "I'm gonna burn this city."
   digest 'pass'
   salt 'salt'
 end
 
-Fabricator(:bob, :from => :user) do
-  name 'bob'
-  self_introduction nil
-  salt = SCrypt::Engine.generate_salt
-  digest SCrypt::Engine.hash_secret('bobpassword', salt)
-  salt salt
+Fabricator(:lindsey, :from => :user) do
+  name 'LindseyWells'
+  self_introduction 'Great western wind catches in my hair.'
+  lindsey_salt = SCrypt::Engine.generate_salt
+  digest SCrypt::Engine.hash_secret('mysecret', lindsey_salt)
+  salt lindsey_salt
 end
 
 # Statuses

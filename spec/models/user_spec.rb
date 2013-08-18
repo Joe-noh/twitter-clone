@@ -3,40 +3,40 @@ require_relative '../spec_helper'
 describe User do
 
   before :all do
-    @john = Fabricate :john
-    @bob  = Fabricate :bob
+    @lindsey = Fabricate :lindsey
+    @franz  = Fabricate :franz
 
-    @status = Fabricate :status
+    @status = Fabricate.build :status
   end
 
   after :all do
-    @john.destroy
+    @lindsey.destroy
   end
 
   describe 'should be able to' do
 
     it 'create a status' do
-      @john.add_status @status
+      @lindsey.add_status @status
 
-      expect(@john.statuses).to eql [@status]
+      expect(@lindsey.statuses).to eql [@status]
     end
 
     it 'follow other users' do
-      @john.add_followee @bob
+      @lindsey.add_followee @franz
 
-      expect(@john.followees).to eql [@bob]
+      expect(@lindsey.followees).to eql [@franz]
     end
 
     it 'know the users who follow him/her' do
-      pending 'john.followees'
+      pending 'lindsey.followees'
     end
 
     it 'know the users whom he/she follows' do
-      pending 'john.followers'
+      pending 'lindsey.followers'
     end
 
     it 'get own timeline' do
-      pending 'john.timeline #=> [status1, status2, ... ]'
+      pending 'lindsey.timeline #=> [status1, status2, ... ]'
     end
 
     it 'be authorized' do

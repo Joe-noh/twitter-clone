@@ -5,12 +5,11 @@ Warden::Strategies.add :custom_auth_strategy do
 
   def authenticate!
     user = User.where('name = ?', params['username']).first
-    fail! 'Authentication Failed.' unless user
 
-    if user.digest == SCrypt::Engine.hash_secret(params['password'], user.salt)
-      success! user
+    if user.nil? || user.digest != SCrypt::Engine.hash_secret(params['password'], user.salt)
+      fail!('Authentication Failed.')
     else
-      fail! 'Authentication Failed.'
+      success! user
     end
   end
 end
@@ -25,7 +24,7 @@ end
 
 helpers do
   def warden
-    request.env['warden']
+    env['warden']
   end
 
   def logged_in?

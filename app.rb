@@ -8,7 +8,7 @@ get '/' do
   if logged_in?
     slim :home
   else
-    slim :login
+    redirect '/login'
   end
 end
 
@@ -17,18 +17,19 @@ get '/login' do
 end
 
 post '/login' do
+  warden.logout
   warden.authenticate!
   redirect '/'
 end
 
 post '/unauthenticated' do
-  @errors = warden.errors
+  @errors = warden.message || 'Authentication Failed.'
   slim :login
 end
 
 get '/logout' do
   warden.logout
-  slim :login
+  redirect '/login'
 end
 
 
@@ -37,7 +38,15 @@ get '/signup' do
 end
 
 post '/signup' do
-  'make new user'
+  redirect 'signup' unless params[:password] == params[:confirmation]
+
+  salt   = SCrypt::Engine.generate_salt
+  digest = SCrypt::Engine.hash_secret(params[:password], salt)
+
+  User.create(:name   => params[:username],
+              :digest => digest,
+              :salt   => salt)
+  redirect '/login'
 end
 
 
