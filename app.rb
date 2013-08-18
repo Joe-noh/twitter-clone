@@ -1,6 +1,6 @@
 
 before do
-  pass if ['/user/new', '/login', '/unauthenticated'].include? request.path_info
+  pass if ['/signup', '/login', '/unauthenticated'].include? request.path_info
   request.path_info = '/' unless logged_in?
 end
 
@@ -22,7 +22,7 @@ post '/login' do
 end
 
 post '/unauthenticated' do
-  @error = warden.error
+  @errors = warden.errors
   slim :login
 end
 
@@ -32,25 +32,25 @@ get '/logout' do
 end
 
 
-get '/user/new' do
-  'registration form'
+get '/signup' do
+  slim :signup
 end
 
-post '/user/new' do
+post '/signup' do
   'make new user'
 end
 
 
-get '/user/profile/:name' do
+get '/user/:name' do
   'user profile page'
 end
 
-get '/user/profile/:name/edit' do
+get '/user/:name/edit' do
   'confirm that :name is warden.user.name'
   'edit form'
 end
 
-post '/user/profile/:name/edit' do
+post '/user/:name/edit' do
   'confirm that :name is warden.user.name'
   'edit user profile'
 end
