@@ -1,0 +1,12 @@
+
+h1 = warden.user.name
+
+ul
+  - for status in @statuses
+    li = status.text
+
+form action="/status/new" method="post"
+  textarea name="status_text"
+  input type="submit" value="Update"
+
+a href="/logout" = 'Log out'

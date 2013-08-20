@@ -1,5 +1,19 @@
+doctype html
+html
+  head
+    meta
+    script type="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
+    script type="javascript" src="js/bootstrap.min.js"
+    link rel="stylesheet" href="css/bootstrap.min.css"
+    link rel="stylesheet" href="css/custom.css"
 
-- if @errors
-  p style="color: red;" = @errors
+    title = @title || 'Twitter Clone'
 
-== yield
+  body
+    nav.navbar.navbar-fixed-top
+      a.navbar-brand Twitter Clone
+
+    - if @error
+      p style="color: red;" = @error
+
+    == yield

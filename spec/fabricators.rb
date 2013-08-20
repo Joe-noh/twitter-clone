@@ -15,7 +15,18 @@ Fabricator(:lindsey, :from => :user) do
   salt lindsey_salt
 end
 
+Fabricator(:michael, :from => :user) do
+  name 'Michael'
+  self_introduction ''
+  digest 'hashed'
+  salt 'browns potato'
+end
+
 # Statuses
-Fabricator(:status) do
-  text 'So sleepy.'
+Fabricator(:status_01, :from => :status) do
+  text 'Come and dance with me.'
+end
+
+Fabricator(:status_02, :from => :status) do
+  text 'I found a new way.'
 end

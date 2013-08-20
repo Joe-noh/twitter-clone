@@ -6,7 +6,9 @@ end
 
 get '/' do
   if logged_in?
-    slim :home
+    @user = warden.user
+    @statuses = Status.where(:user_id => @user.id).order(Sequel.desc :created_at).all
+    slim :profile
   else
     redirect '/login'
   end
@@ -23,7 +25,7 @@ post '/login' do
 end
 
 post '/unauthenticated' do
-  @errors = warden.message || 'Authentication Failed.'
+  @error = warden.message || 'Authentication Failed.'
   slim :login
 end
 
@@ -38,37 +40,56 @@ get '/signup' do
 end
 
 post '/signup' do
-  redirect 'signup' unless params[:password] == params[:confirmation]
+  if params[:password] != params[:confirmation]
+    @error = "'Password' and 'Password Confirmation' are different."
+    slim :signup
+  end
 
   salt   = SCrypt::Engine.generate_salt
   digest = SCrypt::Engine.hash_secret(params[:password], salt)
 
-  User.create(:name   => params[:username],
-              :digest => digest,
-              :salt   => salt)
-  redirect '/login'
+  user = User.new(:name   => params[:username],
+                  :digest => digest,
+                  :salt   => salt)
+
+  if user.valid?
+    user.save
+    redirect '/login'
+  else
+    @error = user.errors.full_messages.first
+    slim :signup
+  end
 end
 
 
 get '/user/:name' do
-  'user profile page'
+  @user = User.where(:name => name).first
+  @statuses = Status.where(:name => @user.name).order(Sequel.desc :created_at).all
+  slim :profile
 end
 
-get '/user/:name/edit' do
-  'confirm that :name is warden.user.name'
-  'edit form'
+get '/user/edit' do
+  slim :profile_edit
 end
 
-post '/user/:name/edit' do
-  'confirm that :name is warden.user.name'
-  'edit user profile'
+post '/user/edit' do
+  User.where(:name => warden.user.name).update(:self_introduction => params[:self_introduction])
+  redirect '/'
 end
 
 
 post '/status/new' do
-  'make new status'
+  status = Status.new(:text => params[:status_text])
+  warden.user.add_status status
+
+  redirect '/'
 end
 
 get '/status/:id' do
-  'show the status'
+  @status = Status.where(:id => id).first
+  slim :status_show
+end
+
+not_found do
+  redirect '/'
 end

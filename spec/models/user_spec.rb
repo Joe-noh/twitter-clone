@@ -3,22 +3,25 @@ require_relative '../spec_helper'
 describe User do
 
   before :all do
+    @franz   = Fabricate :franz
     @lindsey = Fabricate :lindsey
-    @franz  = Fabricate :franz
 
-    @status = Fabricate.build :status
+    @status_01 = Fabricate.build :status_01
+    @status_02 = Fabricate.build :status_02
   end
 
   after :all do
+    @franz.destroy
     @lindsey.destroy
   end
 
   describe 'should be able to' do
 
-    it 'create a status' do
-      @lindsey.add_status @status
+    it 'create statuses' do
+      @lindsey.add_status @status_01
+      @lindsey.add_status @status_02
 
-      expect(@lindsey.statuses).to eql [@status]
+      expect(@lindsey.statuses).to eql [@status_01, @status_02]
     end
 
     it 'follow other users' do
