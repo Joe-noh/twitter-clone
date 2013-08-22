@@ -38,4 +38,15 @@ class User < Sequel::Model
   def before_validation
     self.self_introduction ||= ''
   end
+
+  def follows(user)
+    self.add_followee user
+  end
+
+  def timeline
+    user_ids = self.followees.map(&:id) + [self.id]
+    reply_ids = Recipient.where(:recipient_id => self.id).map(&:status_id)
+
+    Status.where(Sequel.|({:user_id => user_ids}, {:id => reply_ids})).order(Sequel.desc :created_at).all
+  end
 end

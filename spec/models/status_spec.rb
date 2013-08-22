@@ -13,6 +13,7 @@ describe Status do
   after(:all){
     @franz.destroy
     @lindsey.destroy
+    @michael.destroy
   }
 
   it 'should specify recipients' do

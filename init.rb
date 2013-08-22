@@ -10,7 +10,7 @@ use Warden::Manager do |manager|
   manager.failure_app = Sinatra::Application
 end
 
-Dir.glob("#{__dir__}/{config,models}/*.rb").each do |file|
+Dir.glob("#{__dir__}/{config,models,helpers}/*.rb").each do |file|
   require file
 end
 

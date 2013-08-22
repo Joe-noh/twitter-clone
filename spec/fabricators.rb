@@ -30,3 +30,7 @@ end
 Fabricator(:status_02, :from => :status) do
   text 'I found a new way.'
 end
+
+Fabricator(:status_03, :from => :status) do
+  text 'You know what I mean.'
+end

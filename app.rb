@@ -25,24 +25,24 @@ post '/login' do
 end
 
 post '/unauthenticated' do
-  @error = warden.message || 'Authentication Failed.'
+  @flash = {:danger => warden.message || 'Authentication Failed.'}
   slim :login
 end
 
 get '/logout' do
   warden.logout
-  redirect '/login'
+  slim :login
 end
 
 
 get '/signup' do
-  slim :signup
+  slim :login, :locals => {:active_tab => :signup}
 end
 
 post '/signup' do
   if params[:password] != params[:confirmation]
-    @error = "'Password' and 'Password Confirmation' are different."
-    slim :signup
+    @flash = {:danger => "'Password' and 'Password Confirmation' are different."}
+    return slim :login, :locals => {:active_tab => :signup}
   end
 
   salt   = SCrypt::Engine.generate_salt
@@ -56,8 +56,8 @@ post '/signup' do
     user.save
     redirect '/login'
   else
-    @error = user.errors.full_messages.first
-    slim :signup
+    @flash = {:danger => user.errors.full_messages.first}
+    slim :login, :locals => {:active_tab => :signup}
   end
 end
 

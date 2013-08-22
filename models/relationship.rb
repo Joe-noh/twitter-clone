@@ -4,6 +4,7 @@ class Relationship < Sequel::Model
     set_schema do
       integer :follower_id, :null => false
       integer :followee_id, :null => false
+      unique [:follower_id, :followee_id]
     end
     create_table
   end
