@@ -1,19 +1,35 @@
 doctype html
 html
   head
-    meta
-    script type="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
-    script type="javascript" src="js/bootstrap.min.js"
-    link rel="stylesheet" href="css/bootstrap.min.css"
-    link rel="stylesheet" href="css/custom.css"
+    link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"
+    link rel="stylesheet" type="text/css" href="css/custom.css"
+    script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"
+    script type="text/javascript" src="js/bootstrap.min.js"
 
     title = @title || 'Twitter Clone'
 
   body
-    nav.navbar.navbar-fixed-top
-      a.navbar-brand Twitter Clone
+    .container
+      nav.navbar.navbar-default.navbar-fixed-top role="navigation"
+        .navbar-header
+          a.navbar-brand href="/" Twitter Clone
+          - unless warden.user.nil?
+            button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse"
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+        - unless warden.user.nil?
+          .nav-collapse.collapse.navbar-ex1-collapse
+            ul.nav.navbar-nav.pull-right
+              li
+                a href="#" Update Status
+              li
+                a href="/logout" Logout
 
-    - if @error
-      p style="color: red;" = @error
+      - if @flash
+        - @flash.each do |clazz, message|
+          .row
+            .col-8.col-offset-2
+              == alert clazz, message
 
-    == yield
+      == yield

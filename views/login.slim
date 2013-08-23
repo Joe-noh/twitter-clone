@@ -1,10 +1,46 @@
 
-form method="post"
-  label
-    | User Name
-    input type="text" name="username"
-  br
-  label
-    | Password
-    input type="password" name="password"
-  input type="submit" value="Log in!"
+.row
+  .col-8.col-offset-2
+    ul.nav.nav-tabs.nav-justified
+      li.active
+        a href="#login"  data-toggle="tab"
+          strong Log in
+      li
+        a href="#signup" data-toggle="tab"
+          strong Sign up
+    .tab-content
+      #login.tab-pane.fade.active.in
+        .col-offset-4
+          form method="post" action="/login" role="form"
+            .form-group
+              label
+                | User Name
+                input.form-control type="text" name="username"
+            .form-group
+              label
+                | Password
+                input.form-control type="password" name="password"
+            .form-group
+              button.btn.btn-default type="submit" Log in
+      #signup.tab-pane.fade
+        .col-offset-4
+          form method="post" action="/signup" role="form"
+            .form-group
+              label
+                | User Name
+                input.form-control type="text" name="username"
+            .form-group
+              label
+                | Password
+                input.form-control type="password" name="password"
+            .form-group
+              label
+                | Password Confirmation
+                input.form-control type="password" name="confirmation"
+            .form-group
+              button.btn.btn-default type="submit" Sign up
+
+- if locals[:active_tab]
+  == activate_tab locals[:active_tab]
+- else
+  == activate_tab 'login'
