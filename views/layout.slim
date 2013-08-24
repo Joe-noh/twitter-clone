@@ -22,12 +22,12 @@ html
           .nav-collapse.collapse.navbar-ex1-collapse
             ul.nav.navbar-nav.pull-right
               li
-                a data-toggle="modal" href="#update" Update Status
+                a data-toggle="modal" href="#update-modal" Update Status
               li
                 a href="/logout" Logout
 
       - unless warden.user.nil?
-        #update.modal.fade tabindex="-1" role="dialog" aria-hidden="true"
+        #update-modal.modal.fade tabindex="-1" role="dialog" aria-hidden="true"
           .modal-dialog
             .modal-content
               .modal-header
@@ -47,3 +47,11 @@ html
               == alert clazz, message
 
       == yield
+
+    - unless warden.user.nil?
+      javascript:
+        $(function () {
+          $("#update-modal").on("shown", function(){
+            $(".modal-body textarea").focus();
+          })
+        })

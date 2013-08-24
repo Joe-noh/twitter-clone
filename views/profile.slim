@@ -1,12 +1,45 @@
 
-h1 = warden.user.name
+.row
+  .col-8.col-offset-2
+    h1 = warden.user.name
 
-ul
-  - for status in @statuses
-    li = status.text
+    ul
+      - for status in @statuses
+        li = status.text
 
-form action="/status/new" method="post"
-  textarea name="status_text"
-  input type="submit" value="Update"
+    ul.pagination
+      li
+        a href="?p=1" &laquo;
+      / pagination indexes will be inserted here
+      li
+        a &raquo;
 
-a href="/logout" = 'Log out'
+javascript:
+  $(function () {
+    var page = #{locals[:page]};
+    var max  = #{locals[:page_max]};
+
+    if(max == 1){
+      $('ul.pagination').delete();
+    }else if(max < 5){
+      var left  = 1;
+      var right = max;
+    }else if(page <= 3){
+      var left  = 1;
+      var right = 5;
+    }else if(page >= max-2){
+      var left  = max-4;
+      var right = max;
+    }else{
+      var left  = page-2;
+      var right = page+2;
+    }
+    for(var i=left; i <= right; i++){
+      $("<li><a href='?p="+i+"'>"+i+"</a></li>").insertBefore(".pagination li:last");
+    }
+
+    $(".pagination li").eq(page+left-1).addClass("disabled");
+    $(".pagination li").eq(page+left-1).removeAttr("href");
+
+    $(".pagination li:last").find("a").attr("href", "?p="+max);
+  })

@@ -6,9 +6,7 @@ end
 
 get '/' do
   if logged_in?
-    @user = warden.user
-    @statuses = Status.where(:user_id => @user.id).order(Sequel.desc :created_at).all
-    slim :profile
+    redirect "/user/#{warden.user.name}"
   else
     redirect '/login'
   end
@@ -62,10 +60,15 @@ post '/signup' do
 end
 
 
+STATUSES_PER_PAGE = 10
 get '/user/:name' do
-  @user = User.where(:name => name).first
-  @statuses = Status.where(:name => @user.name).order(Sequel.desc :created_at).all
-  slim :profile
+  @user = User.where(:name => params[:name]).first
+
+  page = (params[:p] || 1).to_i
+  statuses = Status.where(:user_id => @user.id).order(Sequel.desc :created_at)
+  @statuses = statuses.limit 10, STATUSES_PER_PAGE*(page-1)
+
+  slim :profile, :locals => {:page => page, :page_max => (statuses.count/STATUSES_PER_PAGE.to_f).ceil}
 end
 
 get '/user/edit' do
@@ -86,9 +89,10 @@ post '/status/new' do
 end
 
 get '/status/:id' do
-  @status = Status.where(:id => id).first
+  @status = Status.where(:id => params[:id]).first
   slim :status_show
 end
+
 
 not_found do
   redirect '/'

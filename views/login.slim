@@ -21,7 +21,7 @@
                 | Password
                 input.form-control type="password" name="password"
             .form-group
-              button.btn.btn-default type="submit" Log in
+              button.btn.btn-primary type="submit" Log in
       #signup.tab-pane.fade
         .col-offset-4
           form method="post" action="/signup" role="form"
@@ -38,7 +38,7 @@
                 | Password Confirmation
                 input.form-control type="password" name="confirmation"
             .form-group
-              button.btn.btn-default type="submit" Sign up
+              button.btn.btn-primary type="submit" Sign up
 
 - if locals[:active_tab]
   == activate_tab locals[:active_tab]

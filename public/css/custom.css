@@ -6,3 +6,19 @@ body {
 .tab-pane {
   padding-top: 20px;
 }
+
+.modal-body {
+  padding-bottom: 0px;
+}
+
+.modal-body textarea {
+  resize: vertical;
+}
+
+.modal-footer-buttons {
+  text-align: right;
+}
+
+.modal-footer-buttons button {
+  margin: 0px 20px 20px 0px;
+}

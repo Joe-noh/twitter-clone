@@ -18,4 +18,5 @@ helpers do
   def activate_tab(tab_href)
     script "$(function () { $(\"[href='##{tab_href}']\").tab('show') })"
   end
+
 end
