@@ -1,10 +1,10 @@
 doctype html
 html
   head
-    link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"
-    link rel="stylesheet" type="text/css" href="css/custom.css"
+    link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"
+    link rel="stylesheet" type="text/css" href="/css/custom.css"
     script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"
-    script type="text/javascript" src="js/bootstrap.min.js"
+    script type="text/javascript" src="/js/bootstrap.min.js"
 
     title = @title || 'Twitter Clone'
 
@@ -22,9 +22,23 @@ html
           .nav-collapse.collapse.navbar-ex1-collapse
             ul.nav.navbar-nav.pull-right
               li
-                a href="#" Update Status
+                a data-toggle="modal" href="#update" Update Status
               li
                 a href="/logout" Logout
+
+      - unless warden.user.nil?
+        #update.modal.fade tabindex="-1" role="dialog" aria-hidden="true"
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h4.modal-title What's up?
+              form method="post" action="/status/new" role="form"
+                .modal-body
+                  .form-group
+                    textarea.form-control rows="3" name="status_text"
+                .modal-footer-buttons
+                  button.btn.btn-default type="button" data-dismiss="modal" Cancel
+                  button.btn.btn-primary type="submit" Update
 
       - if @flash
         - @flash.each do |clazz, message|
