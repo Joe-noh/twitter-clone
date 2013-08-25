@@ -38,8 +38,8 @@ javascript:
       $("<li><a href='?p="+i+"'>"+i+"</a></li>").insertBefore(".pagination li:last");
     }
 
-    $(".pagination li").eq(page+left-1).addClass("disabled");
-    $(".pagination li").eq(page+left-1).removeAttr("href");
+    $(".pagination li").eq(page-left+1).addClass("disabled");
+    $(".pagination li").eq(page-left+1).removeAttr("href");
 
     $(".pagination li:last").find("a").attr("href", "?p="+max);
   })
