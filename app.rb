@@ -63,12 +63,20 @@ end
 STATUSES_PER_PAGE = 10
 get '/user/:name' do
   @user = User.where(:name => params[:name]).first
+  return status 404 if @user.nil?
 
   page = (params[:p] || 1).to_i
-  statuses = Status.where(:user_id => @user.id).order(Sequel.desc :created_at)
-  @statuses = statuses.limit 10, STATUSES_PER_PAGE*(page-1)
 
-  slim :profile, :locals => {:page => page, :page_max => (statuses.count/STATUSES_PER_PAGE.to_f).ceil}
+  if params[:name] == warden.user.name
+    statuses  = @user.timeline
+    @statuses = statuses[STATUSES_PER_PAGE*(page-1), STATUSES_PER_PAGE]
+  else
+    statuses  = Status.where(:user_id => @user.id).order(Sequel.desc :created_at)
+    @statuses = statuses.limit STATUSES_PER_PAGE, STATUSES_PER_PAGE*(page-1)
+  end
+
+  slim :profile, :locals => {:page     => page,
+                             :page_max => (statuses.count/STATUSES_PER_PAGE.to_f).ceil}
 end
 
 get '/user/edit' do
@@ -95,5 +103,5 @@ end
 
 
 not_found do
-  redirect '/'
+  redirect '/'  # TODO: prepare 404 page
 end
