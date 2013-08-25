@@ -1,7 +1,7 @@
 
 .row
   .col-8.col-offset-2
-    h1 = warden.user.name
+    h1 = @user.name
 
     ul
       - for status in @statuses
@@ -19,8 +19,8 @@ javascript:
     var page = #{locals[:page]};
     var max  = #{locals[:page_max]};
 
-    if(max == 1){
-      $('ul.pagination').delete();
+    if(max <= 1){
+      $('ul.pagination').remove();
     }else if(max < 5){
       var left  = 1;
       var right = max;
