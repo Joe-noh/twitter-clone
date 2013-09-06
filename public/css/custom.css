@@ -20,6 +20,22 @@ body {
 }
 
 
+/* profile page */
+.profile-top {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.profile-top h1 {
+  display: inline;
+}
+
+.profile-top a {
+  position: absolute;
+  right: 0;
+}
+
+
 /* update status modal */
 .modal-body {
   padding-bottom: 0px;

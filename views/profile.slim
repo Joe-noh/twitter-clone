@@ -1,14 +1,29 @@
 
 .row
   .col-8.col-offset-2
-    h1 = @user.name
+    .profile-top
+      h1 = @user.name
+      - if @editable_introduction
+        a.btn.btn-info#edit-self-intro href="#" Edit Self-Introduction
+
+        #self-intro-modal.modal.fade tabindex="-1" role="dialog" aria-hidden="true"
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h4.modal-title Self Introduction
+              form method="post" action="/user/edit" role="form"
+                .modal-body
+                  .form-group
+                    textarea.form-control rows="3" name="self_introduction" = @user.self_introduction
+                .modal-footer-buttons
+                  button.btn.btn-default type="button" data-dismiss="modal" Cancel
+                  button.btn.btn-primary type="submit" Update
 
     .list-group
       - for status in @statuses
         a.list-group-item.reply href="#"
           h4.list-group-item-heading = status.user.name
           .list-group-item-text = status.text
-
 
 .pager
   ul.pagination
@@ -20,6 +35,11 @@
 
 javascript:
   $(function () {
+    /* edit self-introduction */
+    $('#edit-self-intro').on('click', function(){
+      $('#self-intro-modal').modal('show');
+    })
+
     /* reply */
     $('.reply').on('click', function(){
       $('#update-modal').modal('show');

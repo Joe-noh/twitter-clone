@@ -78,17 +78,15 @@ get '/user/:name' do
   if params[:name] == warden.user.name
     statuses  = @user.timeline
     @statuses = statuses[spp*(page-1), spp]
+    @editable_introduction = true
   else
     statuses  = Status.where(:user_id => @user.id).order(Sequel.desc :created_at)
     @statuses = statuses.limit spp, spp*(page-1)
+    @editable_introduction = false
   end
 
   slim :profile, :locals => {:page     => page,
                              :page_max => (statuses.count/spp.to_f).ceil}
-end
-
-get '/user/edit' do
-  slim :profile_edit
 end
 
 post '/user/edit' do
