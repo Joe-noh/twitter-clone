@@ -30,4 +30,8 @@ class Status < Sequel::Model
     self.created_at ||= Time.now
     super
   end
+
+  def extract_recipients
+    self.text.scan(/@([\w\d]+)/)
+  end
 end

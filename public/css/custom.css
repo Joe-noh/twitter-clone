@@ -3,10 +3,8 @@ body {
   padding-top: 75px;
 }
 
-.tab-pane .form-group {
 
-}
-
+/* login page */
 .login-page {
   width: 300px;
   margin-left:  auto;
@@ -21,6 +19,8 @@ body {
   padding-top: 20px;
 }
 
+
+/* update status modal */
 .modal-body {
   padding-bottom: 0px;
 }
@@ -39,4 +39,11 @@ body {
 
 .input-block-level {
   width: 100%;
+}
+
+
+/* pagination */
+.pager {
+  color: red;
+  margin: 0 auto;
 }

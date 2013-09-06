@@ -5,19 +5,28 @@
 
     .list-group
       - for status in @statuses
-        .list-group-item
+        a.list-group-item.reply href="#"
           h4.list-group-item-heading = status.user.name
           .list-group-item-text = status.text
 
-    ul.pagination
-      li
-        a href="?p=1" &laquo;
-      / pagination indexes will be inserted here
-      li
-        a &raquo;
+
+.pager
+  ul.pagination
+    li
+      a href="?p=1" &laquo;
+    / pagination will be inserted here
+    li
+      a &raquo;
 
 javascript:
   $(function () {
+    /* reply */
+    $('.reply').on('click', function(){
+      $('#update-modal').modal('show');
+      $('.modal-body textarea').val('@'+$('h4', this).text()+' ');
+    })
+
+    /* paginatoin */
     var page = #{locals[:page]};
     var max  = #{locals[:page_max]};
 

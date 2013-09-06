@@ -101,12 +101,18 @@ post '/status/new' do
   status = Status.new(:text => params[:status_text])
   warden.user.add_status status
 
+  status.extract_recipients.each do |name|
+    user = User.where(:name => name).first
+    status.add_recipient user if user
+  end
+
   redirect '/'
 end
 
-get '/status/:id' do
-  @status = Status.where(:id => params[:id]).first
-  slim :status_show
+
+get '/users' do
+  @users = User.all
+  slim :users
 end
 
 

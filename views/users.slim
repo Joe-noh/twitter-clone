@@ -1,0 +1,10 @@
+
+.row
+  .col-8.col-offset-2
+    h1 Users
+
+    .list-group
+      - for user in @users
+        a.list-group-item href="/user/#{user.name}"
+          h4.list-group-item-heading = user.name
+          .list-group-item-text = user.self_introduction
