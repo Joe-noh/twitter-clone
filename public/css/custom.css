@@ -3,7 +3,21 @@ body {
   padding-top: 75px;
 }
 
-.tab-pane {
+.tab-pane .form-group {
+
+}
+
+.login-page {
+  width: 300px;
+  margin-left:  auto;
+  margin-right: auto;
+}
+
+.tab-pane .form-group label {
+  width: 100%;
+}
+
+.tab-content {
   padding-top: 20px;
 }
 
@@ -21,4 +35,8 @@ body {
 
 .modal-footer-buttons button {
   margin: 0px 20px 20px 0px;
+}
+
+.input-block-level {
+  width: 100%;
 }

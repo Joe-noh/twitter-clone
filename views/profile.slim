@@ -3,9 +3,11 @@
   .col-8.col-offset-2
     h1 = @user.name
 
-    ul
+    .list-group
       - for status in @statuses
-        li = status.text
+        .list-group-item
+          h4.list-group-item-heading = status.user.name
+          .list-group-item-text = status.text
 
     ul.pagination
       li

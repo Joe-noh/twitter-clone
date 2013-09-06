@@ -8,6 +8,10 @@ before do
   request.path_info = '/' unless logged_in?
 end
 
+get '/test' do
+  slim :test, :layout => false
+end
+
 get '/' do
   if logged_in?
     redirect "/user/#{warden.user.name}"
@@ -108,5 +112,5 @@ end
 
 not_found do
   slim :error, :locals => {:code    => response.status,
-                           :message => 'Sorry. This page does not exist.'}
+                           :message => "Sorry.<br />This page doesn't exist."}
 end
